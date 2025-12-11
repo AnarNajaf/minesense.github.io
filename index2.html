@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MineSense — Predict Danger Before It Happens</title>
+  <meta name="description" content="MineSense — real-time IoT vibration monitoring and AI risk prediction for safer mines." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #ffffff;
+      --surface: #ffffff;
+      --muted: #6b7280;
+      --text: #0b1220;
+      --card: #f8fafc;
+      --accent: #FE7B0C;
+      --accent-2: #c85f04;
+      --border: #eef2f7;
+      --max-width:1200px;
+      --radius:12px;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.6;
+      padding-bottom:60px;
+    }
+    .wrap{max-width:var(--max-width);margin:36px auto;padding:28px}
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:26px;
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:18px;box-shadow:0 8px 24px rgba(14,20,30,0.06);
+    }
+    .brand h1{margin:0;font-size:18px;letter-spacing:0.2px;color:var(--accent)}
+    .brand p{margin:0;font-size:12px;color:var(--muted)}
+    nav{display:flex;gap:16px;align-items:center}
+    .nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:13px;padding:8px 12px;border-radius:10px}
+    .nav a.cta{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;padding:9px 14px}
+    /* Hero */
+    .hero{
+      display:grid;
+      grid-template-columns: 1fr 480px;
+      gap:28px;
+      align-items:center;
+      margin-bottom:34px;
+    }
+    .hero .card{
+      background:var(--surface);
+      padding:28px;border-radius:14px;
+      box-shadow:0 8px 30px rgba(15,23,42,0.04);
+      border:1px solid var(--border);
+    }
+    .kicker{display:inline-block;background:rgba(254,123,12,0.08);color:var(--accent);padding:8px 12px;border-radius:999px;font-weight:700;font-size:12px;margin-bottom:16px}
+    .hero h2{margin:0 0 12px 0;font-size:34px;line-height:1.04;color:var(--accent)}
+    .hero p.lead{color:var(--muted);margin:0 0 22px 0;font-size:15px}
+    .features{display:flex;gap:14px;flex-wrap:wrap}
+    .feature{
+      background:#fff;padding:10px 12px;border-radius:12px;font-size:13px;color:var(--text);border:1px solid var(--border);
+      display:flex;gap:10px;align-items:center;
+    }
+    .cta-row{display:flex;gap:12px;margin-top:18px}
+    .btn{
+      padding:12px 16px;border-radius:12px;border:0;font-weight:700;cursor:pointer
+    }
+    .btn.primary{
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#fff;box-shadow:0 10px 30px rgba(14,20,30,0.06);
+    }
+    .btn.ghost{
+      background:transparent;color:var(--accent);border:1px solid var(--border)
+    }
+    /* right column preview */
+    .preview{
+      position:relative;border-radius:12px;overflow:hidden;background:var(--card);
+      box-shadow:0 12px 40px rgba(15,23,42,0.04);
+    }
+    .preview .mock{
+      padding:18px;
+    }
+    .mock .dashboard{
+      height:360px;border-radius:12px;padding:18px;background:#fff;
+      display:flex;gap:16px;color:var(--muted);border:1px solid var(--border)
+    }
+    .chart{
+      flex:1;padding:12px;border-radius:10px;background:linear-gradient(180deg,#fbfdff,#fff);border:1px solid var(--border)
+    }
+    .side{width:120px;display:flex;flex-direction:column;gap:10px}
+    .pill{background:#fff;padding:8px;border-radius:8px;font-size:12px;text-align:center;border:1px solid var(--border)}
+    /* sections */
+    section.block{margin:18px 0;padding:20px;border-radius:12px;background:var(--surface);
+      border:1px solid var(--border)}
+    .two-col{display:grid;grid-template-columns:1fr 420px;gap:22px;align-items:start}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .stat{
+      background:#fff;padding:18px;border-radius:12px;border:1px solid var(--border);
+    }
+    .stat h3{margin:0;font-size:20px;color:var(--accent)}
+    .stat p{margin:6px 0 0 0;color:var(--muted);font-size:13px}
+    /* problem list */
+    .problems ul{padding-left:18px;margin:6px 0;color:var(--muted)}
+    .problems li{margin:8px 0}
+    .img-hero{width:100%;height:180px;object-fit:cover;border-radius:10px;margin-top:10px}
+    /* footer */
+    footer{margin-top:28px;padding:22px;border-radius:12px;background:var(--surface);display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
+    footer p{margin:0;color:var(--muted);font-size:13px}
+    /* responsive */
+    @media (max-width:1020px){
+      .hero{grid-template-columns:1fr}
+      .two-col{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:680px){
+      .wrap{padding:18px}
+      .nav{display:none}
+      .grid-3{grid-template-columns:1fr}
+      .preview .mock .dashboard{height:260px}
+      .hero h2{font-size:24px}
+    }
+
+    /* small animations */
+    .animate-float{animation:float 6s ease-in-out infinite}
+    @keyframes float{
+      0%{transform:translateY(0)}
+      50%{transform:translateY(-6px)}
+      100%{transform:translateY(0)}
+    }
+
+    /* modal demo */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(2,8,12,0.06);display:none;align-items:center;justify-content:center;z-index:60}
+    .modal{background:#fff;padding:18px;border-radius:14px;max-width:720px;width:92%;box-shadow:0 30px 90px rgba(2,10,20,0.06)}
+    .close{background:transparent;border:0;color:var(--muted);font-weight:700;cursor:pointer}
+    .badge{display:inline-block;padding:6px 8px;border-radius:999px;background:rgba(254,123,12,0.08);color:var(--accent);font-weight:700;font-size:12px}
+    .btn.primary, .btn-pricing{font-family:inherit}
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main">
+
+    <header>
+      <div class="brand" aria-label="MineSense brand">
+        <div class="logo" aria-hidden="true">MS</div>
+        <div>
+          <h1>MineSense</h1>
+          <p>Predict Danger Before It Happens</p>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="#product">Product</a>
+        <a href="#how">How it Works</a>
+        <a href="#value">Value</a>
+        <a class="cta" href="#demo">Request Demo</a>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <main class="hero" id="top">
+      <div class="card" role="region" aria-label="Hero">
+        <span class="kicker">LIVE SAFETY</span>
+        <h2>Real-time vibration detection and AI risk prediction for safer mines</h2>
+        <p class="lead">MineSense converts micro-vibrations from drilling, blasting and heavy equipment into early warnings — protecting workers, preventing collapses, and reducing costly downtime.</p>
+
+        <div class="features" aria-hidden="false">
+          <div class="feature">Edge FFT on ESP32</div>
+          <div class="feature">LoRaWAN Mesh Underground</div>
+          <div class="feature">AI Risk Scoring</div>
+          <div class="feature">SMS / Telegram Alerts</div>
+        </div>
+
+        <div class="cta-row">
+          <button class="btn primary" id="openDemo">Request Demo</button>
+          <button class="btn ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it Works</button>
+        </div>
+
+        <div style="margin-top:20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <div style="min-width:130px">
+            <div style="font-size:12px;color:var(--muted)">Deployment</div>
+            <div style="font-weight:700">Plug-and-play nodes</div>
+          </div>
+          <div style="min-width:130px">
+            <div style="font-size:12px;color:var(--muted)">Latency</div>
+            <div style="font-weight:700">Realtime (edge)</div>
+          </div>
+          <div style="min-width:140px">
+            <div style="font-size:12px;color:var(--muted)">Alerts</div>
+            <div style="font-weight:700">SMS • Email • Telegram</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview animate-float" aria-hidden="false">
+        <div style="padding:18px">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+            <div style="background:rgba(255,255,255,0.03);padding:8px;border-radius:10px;font-size:12px">Live Demo</div>
+            <div style="color:var(--muted);font-size:13px">Sample dashboard preview</div>
+          </div>
+
+          <div class="mock">
+            <div class="dashboard" role="img" aria-label="dashboard preview">
+              <div class="chart">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                  <div style="font-weight:700">Vibration Monitor</div>
+                  <div style="font-size:12px;color:var(--muted)">Node #14 • Tunnel A</div>
+                </div>
+                <div style="height:220px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted)">
+                  <!-- small placeholder chart (canvas drawn via JS below) -->
+                  <canvas id="waveChart" width="840" height="220" style="max-width:100%"></canvas>
+                </div>
+              </div>
+
+              <div class="side">
+                <div class="pill">Risk: <strong style="color:#ffd68a">Moderate</strong></div>
+                <div class="pill">Temp: 28°C</div>
+                <div class="pill">Battery: 84%</div>
+                <div class="pill">Last: 2m ago</div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-top:12px;align-items:center">
+              <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=60" alt="miner" style="width:86px;height:86px;border-radius:12px;object-fit:cover;border:1px solid rgba(0,0,0,0.06)">
+              <div>
+                <div style="font-weight:700">MineSense Node</div>
+                <div style="color:var(--muted);font-size:13px">Ultra-sensitive MEMS + geophone hybrid</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Problem / Market -->
+    <section id="product" class="block two-col">
+      <div>
+        <h3 style="margin-top:0">The Hidden Problem Beneath Every Mine</h3>
+        <p style="color:var(--muted)">Mining environments are exposed to continuous vibration from drilling, heavy machinery, blasting, and geological shifts. These micro-vibrations often serve as pre-failure indicators for collapses, slope instability, equipment failure and other catastrophic events.</p>
+
+        <div class="problems" style="margin-top:14px">
+          <h4 style="margin-bottom:8px">Key problems</h4>
+          <ul>
+            <li>Insufficient continuous monitoring — many mines rely on periodic human inspections.</li>
+            <li>Micro-vibrations are invisible to traditional systems yet signal early failure.</li>
+            <li>Tailings and structural failures cause catastrophic environmental and human costs.</li>
+            <li>Scaling operations increases risk when monitoring does not scale with it.</li>
+          </ul>
+        </div>
+
+        <div style="margin-top:18px" class="grid-3">
+          <div class="stat">
+            <h3>Real Risk</h3>
+            <p>Micro-vibration patterns often precede structural failures by hours to days.</p>
+          </div>
+          <div class="stat">
+            <h3>Low Visibility</h3>
+            <p>Traditional inspection intervals miss crucial pre-failure signals.</p>
+          </div>
+          <div class="stat">
+            <h3>High Cost</h3>
+            <p>Unplanned downtime & failures cause large economic and social losses.</p>
+          </div>
+        </div>
+      </div>
+
+      <aside>
+        <img class="img-hero" src="https://images.unsplash.com/photo-1526403224742-2f5be6b6f3d9?auto=format&fit=crop&w=1000&q=60" alt="vibration sensor">
+        <div style="margin-top:12px;background:var(--glass);padding:12px;border-radius:10px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:12px;color:var(--muted)">Deployment</div>
+              <div style="font-weight:700">Plug & Play</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:12px;color:var(--muted)">Battery Life</div>
+              <div style="font-weight:700">6+ months</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" class="block">
+      <h3 style="margin-top:0">How MineSense Works</h3>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px">
+        <div class="stat">
+          <h3>1. Edge Sensing</h3>
+          <p>Ultra-sensitive MEMS & geophone sensors with local FFT preprocess on ESP32 nodes.</p>
+        </div>
+        <div class="stat">
+          <h3>2. Robust Comms</h3>
+          <p>LoRaWAN mesh for underground, Wi-Fi & satellite fallback for remote sites.</p>
+        </div>
+        <div class="stat">
+          <h3>3. AI Analytics</h3>
+          <p>Isolation Forest / LSTM / Random Forest models detect anomalies and forecast trends.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <div style="flex:1;min-width:240px">
+          <h4 style="margin:0 0 8px 0">Predictive Alerts</h4>
+          <p style="color:var(--muted);margin:0">Automated alerts to supervisors — SMS, Telegram, Email — with risk scoring and recommended action steps.</p>
+        </div>
+        <div style="min-width:220px">
+          <div class="badge">Enterprise • Field-ready</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Value -->
+    <section id="value" class="block">
+      <h3 style="margin-top:0">Value Proposition</h3>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px">
+        <div style="flex:1;min-width:220px" class="stat">
+          <h3>Safety</h3>
+          <p>Detect danger hours/days earlier — protect lives & reduce injuries.</p>
+        </div>
+        <div style="flex:1;min-width:220px" class="stat">
+          <h3>Cost Savings</h3>
+          <p>Decrease emergency repairs and unplanned downtime — reduce business loss.</p>
+        </div>
+        <div style="flex:1;min-width:220px" class="stat">
+          <h3>Compliance</h3>
+          <p>Historical logs and analytics support audits and regulatory reporting.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="block" id="demo">
+      <div style="display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+        <div>
+          <h3 style="margin:0">See MineSense in Action</h3>
+          <p style="color:var(--muted);margin-top:6px">Book a demo and get a tailored pilot plan for your site.</p>
+        </div>
+        <div style="display:flex;gap:12px">
+          <a class="btn primary" href="mailto:info@minesense.com?subject=MineSense%20Demo%20Request">Request Demo</a>
+          <button class="btn ghost" onclick="openContact()">Contact Sales</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>© <strong>MineSense</strong> — Predict Danger Before It Happens</p>
+      <p style="color:var(--muted)">info@minesense.com • +1-800-MINESENSE</p>
+    </footer>
+
+  </div>
+
+  <!-- Modal / Demo form (simple) -->
+  <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <div>
+          <h3 style="margin:0">Request a MineSense Demo</h3>
+          <div style="color:var(--muted);font-size:13px;margin-top:6px">Tell us a little about your site — we'll prepare a pilot plan.</div>
+        </div>
+        <button class="close" id="closeModal">&times;</button>
+      </div>
+
+      <form id="demoForm" style="margin-top:12px;display:grid;gap:10px">
+        <input name="name" placeholder="Your name" required style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit">
+        <input name="email" type="email" placeholder="Email" required style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit">
+        <input name="company" placeholder="Company / Mine site" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit">
+        <textarea name="notes" rows="4" placeholder="Brief note / needs" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit"></textarea>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button type="button" class="btn ghost" id="cancel">Cancel</button>
+          <button type="submit" class="btn primary">Send Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // small waveform drawing (demo-only)
+    (function drawDemoWave(){
+      const canvas = document.getElementById('waveChart');
+      if(!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width; const h = canvas.height;
+      function draw(t){
+        ctx.clearRect(0,0,w,h);
+        // gradient
+        const g = ctx.createLinearGradient(0,0,w,0);
+        g.addColorStop(0,'rgba(0,163,255,0.9)');
+        g.addColorStop(1,'rgba(0,212,166,0.9)');
+        ctx.fillStyle = 'rgba(255,255,255,0.02)';
+        ctx.fillRect(0,0,w,h);
+
+        ctx.lineWidth = 2.2;
+        ctx.strokeStyle = g;
+        ctx.beginPath();
+        for(let x=0;x<w;x++){
+          const noise = Math.sin((x/18) + t/300) * 8
+                       + Math.sin((x/9) + t/150) * 3
+                       + Math.random()*1.2;
+          const y = h/2 + noise + Math.sin(x/16 + t/120) * 14;
+          if(x===0) ctx.moveTo(x,y);
+          else ctx.lineTo(x,y);
+        }
+        ctx.stroke();
+
+        // filled area under curve (soft)
+        ctx.globalAlpha = 0.06;
+        ctx.fillStyle = 'rgba(0,163,255,0.25)';
+        ctx.beginPath();
+        for(let x=0;x<w;x++){
+          const noise = Math.sin((x/18) + t/300) * 8
+                       + Math.sin((x/9) + t/150) * 3
+                       + Math.random()*1.2;
+          const y = h/2 + noise + Math.sin(x/16 + t/120) * 14;
+          if(x===0) ctx.moveTo(x,y);
+          else ctx.lineTo(x,y);
+        }
+        ctx.lineTo(w,h); ctx.lineTo(0,h); ctx.closePath();
+        ctx.fill();
+        ctx.globalAlpha = 1.0;
+
+        requestAnimationFrame(()=>draw(t+1));
+      }
+      draw(0);
+    })();
+
+    // modal interactions
+    const modal = document.getElementById('modal');
+    const openDemo = document.getElementById('openDemo');
+    const closeModal = document.getElementById('closeModal');
+    const cancel = document.getElementById('cancel');
+    const demoForm = document.getElementById('demoForm');
+
+    function showModal(){
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden','false');
+    }
+    function hideModal(){
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden','true');
+    }
+
+    openDemo && openDemo.addEventListener('click', showModal);
+    closeModal && closeModal.addEventListener('click', hideModal);
+    cancel && cancel.addEventListener('click', hideModal);
+    modal && modal.addEventListener('click', function(e){
+      if(e.target === modal) hideModal();
+    });
+
+    demoForm && demoForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      // demo behavior: show a thank you then close
+      const name = demoForm.name.value || 'Friend';
+      demoForm.querySelector('button[type=submit]').innerText = 'Sending...';
+      setTimeout(()=>{
+        alert('Thanks ' + name + '! Your demo request has been sent. We will contact you via the email you provided.');
+        demoForm.reset();
+        demoForm.querySelector('button[type=submit]').innerText = 'Send Request';
+        hideModal();
+      }, 900);
+    });
+
+    // contact button fallback
+    function openContact(){
+      window.location.href = 'mailto:info@minesense.com?subject=Contact%20Sales%20-%20MineSense';
+    }
+
+    // keyboard escape to close
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') hideModal();
+    });
+  </script>
+</body>
+</html>
